@@ -189,7 +189,7 @@ hr{
 .hero{
 	height: 100%;
 	width: 100%;
-	background-color: maroon;
+	/* background-color: maroon; */
 	background-position: center;
 	background-size: cover;
 	margin: 0px auto;

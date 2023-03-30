@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>remsgems</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+	<link rel="manifest" href="images/site.webmanifest">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="index.css">
+
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="header">
+
+		<%- include('partials/navbar') %>
+
+			<!-- offer -->
+			<h1 class="titleC">Account</h1>
+			<div class="hero">
+				<div class="form-box2">
+					<div class="button-box">
+						<div id="buttn"></div>
+						<button type="button" class="toggle-btn" onclick="login()">Login</button>
+						<button type="button" class="toggle-btn" onclick="register()">Register</button>
+					</div>
+					<form id="login" class="input-group">
+						<input type="text" class="input-field" placeholder="User Id" required>
+						<input type="text" class="input-field" placeholder="Enter Password" required>
+						<button type="submit" class="submit-btn">Log In</button>
+					</form>
+
+					<form id="register" class="input-group">
+						<input type="text" class="input-field" placeholder="User Id" required>
+						<input type="email" class="input-field" placeholder="Email Id" required>
+						<input type="text" class="input-field" placeholder="Enter Password" required>
+						<button type="submit" class="submit-btn">Register</button>
+					</form>
+				</div>
+			</div>
+			<br>
+			<br>
+			<script>
+				var x = document.getElementById("login");
+				var y = document.getElementById("register");
+				var z = document.getElementById("btn");
+
+				function register() {
+					x.style.left = "-400px";
+					y.style.left = "50px";
+					z.style.left = "110px";
+				}
+
+				function login() {
+					x.style.left = "50px";
+					y.style.left = "450px";
+					z.style.left = "0";
+				}
+			</script>
+
+
+			<div class="footer" id="footer" style="bottom:0px">
+				<div class="container">
+					<div class="row">
+						<div class="footer-col-1">
+							<h3>Follow Us</h3>
+							<p>Facebook</p>
+							<p>Instagram</p>
+							<p>Twitter</p>
+						</div>
+						<div class="footer-col-2" id="contact">
+							<h3>Contact</h3>
+							<p>123 456 789</p>
+							<p>Jewels@yahoo.com</p>
+							<p>No. 10 Jewel Road, Mumbai</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<p style="font-size: small; color: white">Developed by: Siddharth Dhaigude, Saurav Sushil, Christie
+					Thottam
+				</p>
+			</div>
+
+</body>
+
+</html>

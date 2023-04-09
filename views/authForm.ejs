@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>remsgems</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+	<link rel="manifest" href="images/site.webmanifest">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="index.css">
+
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+	<style>
+		body {
+			background-color: rgb(203, 230, 229);
+		}
+	</style>
+</head>
+
+<body>
+
+	<%- include('partials/navbar') %>
+
+		<!-- offer -->
+		<h1 class="titleC">Account</h1>
+		<div class="hero">
+			<div class="form-box2">
+				<div class="button-box">
+					<div id="buttn"></div>
+					<button type="button" class="toggle-btn" onclick="login()">Login</button>
+					<button type="button" class="toggle-btn" onclick="register()">Register</button>
+				</div>
+				<form id="login" class="input-group" method="post" action="/account">
+					<% if (typeof(error) !=='undefined' ) { %>
+						<div class="alert alert-danger" role="alert">
+							<%= error %>
+						</div>
+						<% } %>
+							<input name="username" type="text" class="input-field" placeholder="User Id" required>
+							<input name="password" type="password" class="input-field" placeholder="Enter Password"
+								required>
+							<button type="submit" class="submit-btn" id="login-btn">Log In</button>
+				</form>
+
+				<form id="register" class="input-group" method="post" action="/account/create">
+					<input name="username" type="text" class="input-field" placeholder="User Id" required>
+					<input name="email" type="email" class="input-field" placeholder="Email Id" required>
+					<input name="address" type="text" class="input-field" placeholder="Address" required>
+					<input name="password" type="password" class="input-field" placeholder="Enter Password" required>
+					<input name="confirmPassword" type="password" class="input-field" placeholder="Confirm Password"
+						required>
+					<button type="submit" class="submit-btn" id="register-btn">Register</button>
+				</form>
+			</div>
+		</div>
+		<br>
+		<br>
+
+		<%- include('partials/footer') %>
+			<script>
+				var x = document.getElementById("login");
+				var y = document.getElementById("register");
+				var z = document.getElementById("btn");
+
+				function register(e) {
+					x.style.left = "-400px";
+					y.style.left = "50px";
+					z.style.left = "110px";
+				}
+
+				function login() {
+					x.style.left = "50px";
+					y.style.left = "450px";
+					z.style.left = "0";
+				}
+
+				y.addEventListener("submit", (e) => {
+					e.preventDefault()
+					let pass = y.password.value
+					let conf_pass = y.confirmPassword.value
+					if (pass != conf_pass) {
+						alert("Passwords do not match")
+						return
+					}
+
+					let formData = new FormData(y)
+					let data = {
+						username: y.username.value,
+						email: y.email.value,
+						address: y.address.value,
+						password: y.password.value,
+					}
+
+					fetch("/account/create", {
+						method: "post",
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(data)
+					}).then(async (res) => {
+						let data = await res.json()
+						if (data.status == "success") {
+							window.location.href = "/account"
+						}
+					})
+
+				})
+			</script>
+</body>
+
+</html>

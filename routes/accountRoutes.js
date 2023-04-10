@@ -58,13 +58,38 @@ router.post('/create', (req, res) => {
     res.json({ status: "success" }).status(200)
 })
 
-router.post('/reset-password/:username', (req, res) => {
-    User.findOne({ username: req.params.username })
+router.post('/update', (req, res) => {
+    User.findOne({ username: req.body.username })
         .then(user => {
             if (user) {
-                user.password = req.body.password
+                user.username = req.body.username
+                user.email = req.body.email
+                user.address = req.body.address
                 user.save()
-                res.json({ success: true }).status(200)
+                res.redirect('/account')
+            }
+            else {
+                res.redirect('/account')
+            }
+        })
+        .catch(err => {
+            res.redirect('/account')
+        })
+})
+
+router.post('/reset-password', (req, res) => {
+    let oldPassword = req.body.prev_pass
+    User.findOne({ username: req.body.username })
+        .then(user => {
+            if (user) {
+                if (user.password == oldPassword) {
+                    user.password = req.body.new_pass
+                    user.save()
+                    res.json({ success: true }).status(200)
+                }
+                else {
+                    res.json({ success: false, message: "Incorrect password" }).status(404)
+                }
             }
             else {
                 res.json({ success: false, message: "Error" }).status(404)

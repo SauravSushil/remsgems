@@ -22,57 +22,89 @@
         body {
             background-color: rgb(203, 230, 229);
         }
+
+        .account-box {
+            margin: 0 auto;
+            margin-bottom: 100px;
+            width: 60%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        .account-section {
+            margin: 0 auto;
+            width: 50%;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        .account-detail {
+            margin-bottom: 4px;
+        }
+
+        .account-detail .heading {
+            display: inline;
+            font-weight: bold;
+            margin-right: 10px;
+        }
     </style>
 </head>
 
 <body>
 
     <%- include('partials/navbar') %>
-        <div class="container-fluid">
-            <h2>Account Details</h2>
-
-            <div>
-                <span>Username: </span>
-                <span>
-                    <%= user.username %>
-                </span>
-            </div>
-            <div>
-                <span>Email: </span>
-                <span>
-                    <%= user.email %>
-                </span>
-            </div>
-            <div>
-                <span>Address: </span>
-                <span>
-                    <%= user.address %>
-                </span>
-            </div>
-            <div>
-                <span>Password: </span>
-                <span>
-                    <%= user.password %>
-                </span>
+        <div class="container-fluid account-box">
+            <div class="account-section">
+                <h2>Account Details</h2>
+                <form id="userForm" method="post" action="/account/update">
+                    <div class="account-detail">
+                        <span class="heading">Username: </span>
+                        <input name="username" class="input-field" type="text" value=<%=user.username %>>
+                    </div>
+                    <div class="account-detail">
+                        <span class="heading">Email: </span>
+                        <input name="email" class="input-field" type="text" value=<%=user.email %>>
+                    </div>
+                    <div class="account-detail">
+                        <span class="heading">Address: </span>
+                        <textarea name="address" class="input-field" type="text"><%=user.address %></textarea>
+                    </div>
+                    <div class="account-detail">
+                        <span class="heading">Address: </span>
+                        <span>
+                            <%= user.password %>
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" type="submit">submit</button>
+                </form>
             </div>
 
 
-            <h2>Reset Password</h2>
-            <form id="passForm" style="width: 300px;" action="/account/reset-password" method="post">
-                <input class="input-field" placeholder="Enter New Password" type="passwod" name="password" required>
-                <input class="input-field" placeholder="Confirm Password" type="passwod" name="confirm_password"
-                    required>
-                <button class="btn btn-primary" type="submit">Chage Password</button>
-            </form>
+            <div class="account-section">
+                <h2>Reset Password</h2>
+                <form id="passForm" style="width: 300px;" action="/account/reset-password" method="post">
+                    <input class="input-field" placeholder="Your Current Password" type="password" name="prev_password">
+                    <input class="input-field" placeholder="Enter New Password" type="passwod" name="password" required>
+                    <input class="input-field" placeholder="Confirm Password" type="passwod" name="confirm_password"
+                        required>
+                    <button class="btn btn-primary" type="submit">Chage Password</button>
+                </form>
+            </div>
         </div>
 
         <script>
             let passForm = document.querySelector('#passForm')
+            let userForm = document.querySelector("#userForm")
             let username = "<%= user.username %>"
+
 
             passForm.addEventListener("submit", (e) => {
                 e.preventDefault()
 
+                let prev_pass = passForm.prev_password.value
                 let password = passForm.password.value
                 let confirm_password = passForm.confirm_password.value
                 if (password != confirm_password) {
@@ -80,13 +112,15 @@
                     return
                 }
 
-                fetch(`/account/reset-password/${username}`, {
+                fetch('/account/reset-password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        password: password
+                        username: username,
+                        new_pass: password,
+                        prev_pass: prev_pass
                     })
                 }).then(res => res.json())
                     .then(data => {

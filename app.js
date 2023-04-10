@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -16,7 +17,7 @@ app.use(cors())
 app.set('view engine', 'ejs')
 
 try {
-    mongoose.connect('mongodb://localhost:27017/cssDB', { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connect(process.env.MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log("Connected to DB");
 } catch (error) {
     console.log(error)
